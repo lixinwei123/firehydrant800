@@ -20,7 +20,7 @@
   <!-- Display list of fires -->
   <ion-list>
     <ion-label>List of fires</ion-label>
-    <ion-item *ngFor="let fire of fires$ | async">
+    <ion-item *ngFor="let fire of fires$ | async" (click)="openFireDetail(fire)">
       {{fire.address}}
     </ion-item>
 

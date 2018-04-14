@@ -141,5 +141,10 @@ export class HomePage {
       return deg * (Math.PI/180)
   }
 
+  //------------Open fire detail page
+  openFireDetail(fire){
+    this.navCtrl.push('FireDetailPage', {fire: fire})
+  }
+
 
 }
