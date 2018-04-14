@@ -16,13 +16,13 @@ export class HomePage {
   constructor(public navCtrl: NavController,
             private LaunchNavigator: LaunchNavigator, private geolocation: Geolocation) {
                 console.log(LaunchNavigator);
-
+                 this.getLocation();
 
   }
 
 getLocation(){
   this.geolocation.getCurrentPosition().then((resp) => {
- this.longitude = resp.coords.latitude;
+ this.longitude = resp.coords.longitude;
  this.latitude = resp.coords.latitude;
  console.log(this.longitude,this.latitude);
  // resp.coords.longitude
