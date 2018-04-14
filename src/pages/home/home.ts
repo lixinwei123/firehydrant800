@@ -33,8 +33,11 @@ export class HomePage {
     let autocompleteModal = this.modalCtrl.create(AutocompletePage);
     autocompleteModal.present();
     autocompleteModal.onDidDismiss(data=> {
-      let addressData = data;
-      this.createFire(addressData);
+      if (data){
+        let addressData = data;
+        this.createFire(addressData);
+      }
+
 
     })
   }
