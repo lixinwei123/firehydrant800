@@ -81,6 +81,7 @@ export class HomePage {
       console.log("best one is here", this.bestHyd);
   }
 
+  //------------ OPEN MODAL FOR THE PAGES --------
   openModal(){
     let autocompleteModal = this.modalCtrl.create(AutocompletePage);
     autocompleteModal.present();
@@ -93,7 +94,7 @@ export class HomePage {
   }
 
 
-
+  //------------- CREATE FIRE -------------
   createFire(addressData) {
     let ref = this.afData.database.ref(`fires`)
     let key = ref.push().key
@@ -106,6 +107,8 @@ export class HomePage {
     ref.child(key).update(obj);
   }
 
+
+  //----------------- GEO LOCATION ----------- 
    getLocation(){
      this.geolocation.getCurrentPosition().then((resp) => {
 
