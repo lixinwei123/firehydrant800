@@ -4,6 +4,7 @@ import { AutocompletePage } from './places-autocomplete';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @Component({
   selector: 'page-home',
@@ -13,12 +14,19 @@ import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-na
 
 //----------------- HOME PAGE CONSTRUCTOR -------------
 export class HomePage {
-  fires$: any;
+
+  longitude: any;
+  latitude: any;
+    fires$: any;
+
 
   constructor(public navCtrl: NavController,
     private modalCtrl: ModalController,
     private afData: AngularFireDatabase,
+    private geolocation: Geolocation,
     private LaunchNavigator: LaunchNavigator) {
+    
+    this.getLocation();
 
     this.loadFires();
 
@@ -54,7 +62,16 @@ export class HomePage {
     ref.child(key).update(obj);
   }
 
-
+  getLocation(){
+     this.geolocation.getCurrentPosition().then((resp) => {
+     this.longitude = resp.coords.longitude;
+     this.latitude = resp.coords.latitude;
+     console.log(this.longitude,this.latitude);
+     // resp.coords.longitude
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }
   //--------- LAUNCH DIRECTION -----------
   launchDirection(){
     console.log('This function is triggered');
