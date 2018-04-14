@@ -16,6 +16,7 @@ import { HydrantProvider } from '../../providers/hydrant/hydrant';
 //----------------- HOME PAGE CONSTRUCTOR -------------
 export class HomePage {
 
+    //----- LIST OF VARIABLES -------
     longitude: any;
     latitude: any;
     fires$: any;
@@ -27,6 +28,7 @@ export class HomePage {
     fireArr: any[];
 
 
+//-------- CONSTRUCTOR FOR CALCULATING THE HOME.TS PAGE -----------
   constructor(public navCtrl: NavController,
     private modalCtrl: ModalController,
     private afData: AngularFireDatabase,
@@ -35,39 +37,47 @@ export class HomePage {
     private alertCtrl: AlertController,
     private LaunchNavigator: LaunchNavigator) {
 
+    //--------- LOAD ALL THE FIRE HYDRANTS ----------
+    this.loadFires(39.9565273, -75.1907409);
 
-
+    //--------- GET LOCATION --------
     this.getLocation();
-    this.fires$ = this.afData.list("fires").valueChanges();
-    this.fires$.subscribe(fireArr=> {
-      this.fireArr = fireArr;
-    })
     //this.calcBest();
   }
 
 
   async calcBest(){
 
+
+//----------------- LOAD ALL THE FIRE HYDRANTS AND THEN CALCUALTE BETWEEN TWO DISTANCES ------------
    await this.afData.database.ref('firehydrants').once('value',dataSnap =>{
       this.hydData = dataSnap.val();
     })
-      for(var i in this.hydData){
-        var curDist = this.calculateDistance(this.latitude,this.longitude,this.hydData[i].lat,this.hydData[i].lng);
-        if (!this.bestHyd){
-          this.bestHyd = {
-            dist: curDist,
-            id: parseInt(i)
-          }
 
-        }
-        else {
-          if(curDist < this.bestHyd.dist){
-            this.bestHyd['dist'] = curDist
-            this.bestHyd['id'] = parseInt(i);
-          }
-        }
+        console.log(this.latitude);
+        console.log(this.longitude);
+
+        if (!this.latitude) this.latitude = 39.9644620;
+        if (!this.longitude) this.longitude = -75.207807;
+
+
+
+        //--------------- LOOP THROUGH THE FIRE HYDRANT DATA AND THEN CALCUALTE THE DIFFERENCES --------
+        for(var i in this.hydData){
+            var curDist = this.calculateDistance(this.latitude,this.longitude,this.hydData[i].lat,this.hydData[i].lng);
+            if (!this.bestHyd){
+              this.bestHyd = {
+                dist: curDist,
+                id: parseInt(i)
+              }
+            }
+            else {
+              if(curDist < this.bestHyd.dist){
+                this.bestHyd['dist'] = curDist
+                this.bestHyd['id'] = parseInt(i);
+              }
+            }
       }
-      //console.log("list",this.bestHyd);
       console.log("best one is here", this.bestHyd);
   }
 
@@ -85,7 +95,6 @@ export class HomePage {
 
 
   createFire(addressData) {
-
     let ref = this.afData.database.ref(`fires`)
     let key = ref.push().key
     let obj = {
@@ -98,11 +107,12 @@ export class HomePage {
   }
 
    getLocation(){
-      this.geolocation.getCurrentPosition().then((resp) => {
+     this.geolocation.getCurrentPosition().then((resp) => {
+
+      console.log("THIS FUNCTION IS CALLED");
 
      this.longitude = resp.coords.longitude;
      this.latitude = resp.coords.latitude;
-
      console.log("Finished getting geolocation");
      this.loadFires(this.latitude, this.longitude)
 
@@ -123,8 +133,8 @@ export class HomePage {
         this.fireArr.forEach(fire=>{
           let fireLat = fire.lat
           let fireLng = fire.lng
-          // console.log("fire coords", fireLat, "long", fireLng);
           fire.distance = this.calculateDistance(lat, lng, fireLat, fireLng).toFixed(2);
+          console.log(fire.distance);
         })
 
         this.fireArr.sort(function(x,y){
@@ -198,11 +208,6 @@ export class HomePage {
         }
       ]
     })
-
-
     alert.present();
-
   }
-
-
 }

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -17,33 +17,22 @@
 
   </ion-fab>
 
-  <!-- Display list of fires -->
+  <!-- ___________ Display list of fires ___________ -->
   <ion-list>
-
-    <ion-label style="color: red"><b>Active fires</b></ion-label>
+    <ion-label style="color: #922B21; font-size: 20px"><b>Active fires</b></ion-label>
     <ion-item-sliding *ngFor="let fire of fireArr" (click)="openFireDetail(fire)">
       <ion-item text-wrap>
-        <h2 style="width: 70%">
-          {{fire.address}}
-        </h2>
-        <p>
-          {{fire.distance}} miles
-        </p>
-
-
+        <h2 style="width: 70%">{{fire.address}}</h2>
+        <p>{{fire.distance}} miles</p>
       </ion-item>
 
       <ion-item-options>
-        <button danger (click)="removeFire(fire)"><ion-icon name="trash"></ion-icon></button>
-
+        <button class="padding" danger (click)="removeFire(fire)">
+            <ion-icon name="trash"></ion-icon></button>
       </ion-item-options>
     </ion-item-sliding>
-
-
   </ion-list>
 
-  <p class="p-info">
-    <i>Swipe item for more options.</i>
-  </p>
+  <p class="p-info"><i>Swipe item for more options.</i></p>
 
 </ion-content>
