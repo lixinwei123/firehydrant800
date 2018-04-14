@@ -11,13 +11,14 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
 
-
 import {AngularFireModule} from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 
 //Modals
 import { AutocompletePage } from '../pages/home/places-autocomplete';
+import { HydrantProvider } from '../providers/hydrant/hydrant';
+import { HttpClientModule } from '@angular/common/http';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBKbuAZewGkhTx9tpCW3rPAfVfYN2oW0Vo",
@@ -40,7 +41,8 @@ export const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -55,7 +57,9 @@ export const firebaseConfig = {
     SplashScreen,
     LaunchNavigator,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Geolocation
+    Geolocation,
+    HydrantProvider,
+    HttpClientModule
   ]
 })
 export class AppModule {}

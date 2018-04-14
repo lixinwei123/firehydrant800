@@ -5,6 +5,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 import { Geolocation } from '@ionic-native/geolocation';
+import { HydrantProvider } from '../../providers/hydrant/hydrant';
 
 @Component({
   selector: 'page-home',
@@ -18,24 +19,56 @@ export class HomePage {
   longitude: any;
   latitude: any;
     fires$: any;
+    hydData: any;
+    bestHyd: {
+      id: number,
+      dist: number,
+    };
 
 
   constructor(public navCtrl: NavController,
     private modalCtrl: ModalController,
     private afData: AngularFireDatabase,
     private geolocation: Geolocation,
+    private LaunchNavigator: LaunchNavigator,
+    public hydInfo: HydrantProvider,
     private alertCtrl: AlertController,
     private LaunchNavigator: LaunchNavigator) {
 
+
+
     this.getLocation();
-
     this.loadFires();
-
+    //this.calcBest();
   }
 
   loadFires() {
-    this.fires$ = this.afData.list(`fires`).valueChanges()
+    this.fires$ = this.afData.list(`fires`).valueChanges();
+  }
 
+  async calcBest(){
+
+   await this.afData.database.ref('firehydrants').once('value',dataSnap =>{
+      this.hydData = dataSnap.val();
+    })
+      for(var i in this.hydData){
+        var curDist = this.calculateDistance(this.latitude,this.longitude,this.hydData[i].lat,this.hydData[i].lng);
+        if (!this.bestHyd){
+          this.bestHyd = {
+            dist: curDist,
+            id: parseInt(i)
+          }
+
+        }
+        else {
+          if(curDist < this.bestHyd.dist){
+            this.bestHyd['dist'] = curDist
+            this.bestHyd['id'] = parseInt(i);
+          }
+        }
+      }
+      //console.log("list",this.bestHyd);
+      console.log("best one is here", this.bestHyd);
   }
 
   openModal(){
@@ -46,10 +79,10 @@ export class HomePage {
         let addressData = data;
         this.createFire(addressData);
       }
-
-
     })
   }
+
+
 
   createFire(addressData) {
 
@@ -63,11 +96,13 @@ export class HomePage {
     ref.child(key).update(obj);
   }
 
-  getLocation(){
-     this.geolocation.getCurrentPosition().then((resp) => {
+   getLocation(){
+      this.geolocation.getCurrentPosition().then((resp) => {
+
      this.longitude = resp.coords.longitude;
      this.latitude = resp.coords.latitude;
-     console.log(this.longitude,this.latitude);
+     this.calcBest();
+     console.log("HO",this.longitude,this.latitude);
      // resp.coords.longitude
     }).catch((error) => {
       console.log('Error getting location', error);
@@ -105,7 +140,7 @@ export class HomePage {
         Math.sin(dLon/2) * Math.sin(dLon/2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
       var d = R * c; // Distance in km
-      console.log(d);
+      //console.log(d);
       return d;
   }
 
