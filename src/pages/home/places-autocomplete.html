@@ -1,0 +1,12 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-searchbar autocomplete autocorrect #searchAddress placeholder="Search location"></ion-searchbar>
+        <ion-buttons end>
+            <button ion-button clear color="danger" (click)="dismiss()">Close</button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <button ion-button block (click)="returnNewLocation()">Set Address</button>
+</ion-content>
