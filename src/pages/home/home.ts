@@ -38,6 +38,10 @@ export class HomePage {
 
 
     this.getLocation();
+    this.fires$ = this.afData.list("fires").valueChanges();
+    this.fires$.subscribe(fireArr=> {
+      this.fireArr = fireArr;
+    })
     //this.calcBest();
   }
 
