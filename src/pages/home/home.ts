@@ -32,7 +32,7 @@ export class HomePage {
     private geolocation: Geolocation,
     private LaunchNavigator: LaunchNavigator,
     public hydInfo: HydrantProvider ) {
-    
+
     this.getLocation();
     this.loadFires();
     //this.calcBest();
@@ -43,20 +43,23 @@ export class HomePage {
   }
 
   async calcBest(){
-   
+
    await this.afData.database.ref('firehydrants').once('value',dataSnap =>{
       this.hydData = dataSnap.val();
     })
-      for(var i in this.hydData){ 
-        var curDist = this.calculateDistance(this.longitude,this.latitude,this.hydData[i].lat,this.hydData[i].lng);
-        if (!this.bestHyd.dist){
-          this.bestHyd.dist = curDist
-          this.bestHyd.id = parseInt(i);
+      for(var i in this.hydData){
+        var curDist = this.calculateDistance(this.latitude,this.longitude,this.hydData[i].lat,this.hydData[i].lng);
+        if (!this.bestHyd){
+          this.bestHyd = {
+            dist: curDist,
+            id: parseInt(i)
+          }
+
         }
         else {
           if(curDist < this.bestHyd.dist){
-            this.bestHyd.dist = curDist
-            this.bestHyd.id = parseInt(i);
+            this.bestHyd['dist'] = curDist
+            this.bestHyd['id'] = parseInt(i);
           }
         }
       }
