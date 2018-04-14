@@ -24,7 +24,7 @@ export class FireDetailPage {
       id: number,
       dist: number,
     };
-     hydArray: any;
+     hydArray = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, private afData: AngularFireDatabase) {
     this.fire = navParams.get('fire');
@@ -44,33 +44,22 @@ export class FireDetailPage {
       this.hydData = dataSnap.val();
     })
       for(var i in this.hydData){
-        var curDist = this.calculateDistance(this.fire.lng,this.fire.lat,this.hydData[i].lat,this.hydData[i].lng);
+        var curDist = this.calculateDistance(this.fire.lat,this.fire.lng,this.hydData[i].lat,this.hydData[i].lng);
         var obj = {
           dist: curDist,
-          id: parseInt(i)
+          id: parseInt(i),
+          lng: this.hydData[i].lng,
+          lat: this.hydData[i].lat
         }
-        if (!this.bestHyd){
-          this.hydArray.push(obj);
-        }
-        else {
-          for(var j in this.hydArray){
-           if(this.hydArray[j].dist > curDist){
-             var temp = this.hydArray[j]
-             this.hydArray[j] = obj;
-             this.hydArray[j + 1] = temp
-           }
-           else{
-             this.hydArray.push(obj);
-           }
-          /*this.hydArray.push(obj)
-          if(this.hydArray[ 0] < this.bestHyd.dist){
-            this.hydArray['dist'] = curDist
-            this.bestHyd['id'] = parseInt(i);
-          }*/
-        }
+        if(this.hydData[i].Critical == false && this.hydData[i].OutOfService == false){
+        this.hydArray.push(obj);
+      
+      } 
       }
-      }
-      //console.log("list",this.bestHyd);
+        this.hydArray.sort(function(x,y){
+          return x.dist - y.dist 
+        });
+      console.log("all hyd",this.hydArray);
       this.hydArray = [this.hydArray[0],this.hydArray[1],this.hydArray[2],this.hydArray[3],this.hydArray[4]];
       console.log("best one is here", this.hydArray);
   }
@@ -91,10 +80,7 @@ export class FireDetailPage {
 
 
   calculateDistance(lat1,lon1,lat2,lon2){
-      lat1 = 39.9644620;
-      lon1 = -75.2078070;
-      lat2 = 39.866441;
-      lon2 = -75.077773;
+     
 
 
       let R = 6371; // Radius of the earth in km
