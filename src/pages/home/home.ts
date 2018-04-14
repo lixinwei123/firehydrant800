@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
 import { AutocompletePage } from './places-autocomplete';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
@@ -24,8 +24,9 @@ export class HomePage {
     private modalCtrl: ModalController,
     private afData: AngularFireDatabase,
     private geolocation: Geolocation,
+    private alertCtrl: AlertController,
     private LaunchNavigator: LaunchNavigator) {
-    
+
     this.getLocation();
 
     this.loadFires();
@@ -112,6 +113,33 @@ export class HomePage {
   //----------- DEGREE CONVERSION ---------
   deg2rad(deg) {
       return deg * (Math.PI/180)
+  }
+
+  removeFire(fire){
+    let alert = this.alertCtrl.create({
+      title: "Is the fire put out?",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+
+        {
+          text: 'OK',
+          handler: ()=> {
+            this.afData.database.ref(`fires/${fire.id}`).remove();
+
+          }
+        }
+      ]
+    })
+
+
+    alert.present();
+
   }
 
 
