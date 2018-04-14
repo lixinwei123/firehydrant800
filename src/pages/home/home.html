@@ -8,9 +8,22 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
 
-  <button ion-button (click)='launchDirection()'>Launch Navigator</button>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+
+  <!--FAB BUTTON  -->
+  <ion-fab bottom right>
+    <button (click)="openModal()" ion-fab mini><ion-icon name="add"></ion-icon></button>
+
+  </ion-fab>
+
+  <!-- Display list of fires -->
+  <ion-list>
+    <ion-label>List of fires</ion-label>
+    <ion-item *ngFor="let fire of fires$ | async">
+      {{fire.address}}
+    </ion-item>
+
+  </ion-list>
+
 </ion-content>
