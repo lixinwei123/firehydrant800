@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { AutocompletePage } from './places-autocomplete';
 import { AngularFireDatabase } from 'angularfire2/database';
+<<<<<<< HEAD
+import { Observable } from 'rxjs/Observable';
+=======
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+>>>>>>> 771f0716530f60fce4c94bc8e0be39afd0393c17
 
 @Component({
   selector: 'page-home',
@@ -12,6 +16,7 @@ import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-na
 
 //----------------- HOME PAGE CONSTRUCTOR -------------
 export class HomePage {
+  fires$: any;
 
   constructor(public navCtrl: NavController
     ,private modalCtrl: ModalController
@@ -19,6 +24,12 @@ export class HomePage {
     ,private LaunchNavigator: LaunchNavigator) {
 
     ) {
+      this.loadFires();
+
+  }
+
+  loadFires() {
+    this.fires$ = this.afData.list(`fires`).valueChanges()
 
   }
 
