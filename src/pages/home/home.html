@@ -19,7 +19,7 @@
 
   <!-- Display list of fires -->
   <ion-list>
-    <ion-label>Active fires</ion-label>
+    <ion-label style="color: red"><b>Active fires</b></ion-label>
     <ion-item-sliding *ngFor="let fire of fires$ | async">
       <ion-item>
         {{fire.address}}
@@ -35,5 +35,9 @@
 
 
   </ion-list>
+
+  <p class="p-info">
+    <i>Swipe item for more options.</i>
+  </p>
 
 </ion-content>
