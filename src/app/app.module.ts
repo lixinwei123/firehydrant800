@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -51,6 +52,7 @@ export const firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
+    LaunchNavigator,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
