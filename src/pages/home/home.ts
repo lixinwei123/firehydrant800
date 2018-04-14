@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
 import { AutocompletePage } from './places-autocomplete';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
@@ -31,7 +31,11 @@ export class HomePage {
     private afData: AngularFireDatabase,
     private geolocation: Geolocation,
     private LaunchNavigator: LaunchNavigator,
-    public hydInfo: HydrantProvider ) {
+    public hydInfo: HydrantProvider,
+    private alertCtrl: AlertController,
+    private LaunchNavigator: LaunchNavigator) {
+
+
 
     this.getLocation();
     this.loadFires();
@@ -122,6 +126,11 @@ export class HomePage {
 
   //----------- CALCULATE DISTANCE ----------
   calculateDistance(lat1,lon1,lat2,lon2){
+      lat1 = 39.9644620;
+      lon1 = -75.2078070;
+      lat2 = 39.866441;
+      lon2 = -75.077773;
+
 
       let R = 6371; // Radius of the earth in km
       let dLat = this.deg2rad(lat2-lat1);  // deg2rad below
@@ -139,6 +148,33 @@ export class HomePage {
   //----------- DEGREE CONVERSION ---------
   deg2rad(deg) {
       return deg * (Math.PI/180)
+  }
+
+  removeFire(fire){
+    let alert = this.alertCtrl.create({
+      title: "Is the fire put out?",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+
+        {
+          text: 'OK',
+          handler: ()=> {
+            this.afData.database.ref(`fires/${fire.id}`).remove();
+
+          }
+        }
+      ]
+    })
+
+
+    alert.present();
+
   }
 
 
