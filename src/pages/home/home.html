@@ -9,7 +9,7 @@
 
 <ion-content padding>
 
-    <button ion-button (click)="calculateDistance()">Calculates</button>
+    <!-- <button ion-button (click)="calculateDistance()">Calculates</button> -->
 
   <!--FAB BUTTON  -->
   <ion-fab bottom right>
@@ -21,9 +21,14 @@
   <ion-list>
 
     <ion-label style="color: red"><b>Active fires</b></ion-label>
-    <ion-item-sliding *ngFor="let fire of fires$ | async" (click)="openFireDetail(fire)">
-      <ion-item>
-        {{fire.address}}
+    <ion-item-sliding *ngFor="let fire of fireArr" (click)="openFireDetail(fire)">
+      <ion-item text-wrap>
+        <h2 style="width: 70%">
+          {{fire.address}}
+        </h2>
+        <p>
+          {{fire.distance}} miles
+        </p>
 
 
       </ion-item>

@@ -50,7 +50,8 @@ export class AutocompletePage {
 
             let obj = {
               address: address.formatted_address,
-              latlng: address.geometry.location.lat() + ", " + address.geometry.location.lng()
+              lat: address.geometry.location.lat(),
+              lng: address.geometry.location.lng()
             }
 
             this.viewCtrl.dismiss(obj);

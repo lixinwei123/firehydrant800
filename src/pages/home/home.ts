@@ -16,21 +16,21 @@ import { HydrantProvider } from '../../providers/hydrant/hydrant';
 //----------------- HOME PAGE CONSTRUCTOR -------------
 export class HomePage {
 
-  longitude: any;
-  latitude: any;
+    longitude: any;
+    latitude: any;
     fires$: any;
     hydData: any;
     bestHyd: {
       id: number,
       dist: number,
     };
+    fireArr: any[];
 
 
   constructor(public navCtrl: NavController,
     private modalCtrl: ModalController,
     private afData: AngularFireDatabase,
     private geolocation: Geolocation,
-    private LaunchNavigator: LaunchNavigator,
     public hydInfo: HydrantProvider,
     private alertCtrl: AlertController,
     private LaunchNavigator: LaunchNavigator) {
@@ -38,13 +38,9 @@ export class HomePage {
 
 
     this.getLocation();
-    this.loadFires();
     //this.calcBest();
   }
 
-  loadFires() {
-    this.fires$ = this.afData.list(`fires`).valueChanges();
-  }
 
   async calcBest(){
 
@@ -90,7 +86,8 @@ export class HomePage {
     let key = ref.push().key
     let obj = {
       address: addressData.address,
-      latlng: addressData.latlng,
+      lat: addressData.lat,
+      lng: addressData.lng,
       id: key
     }
     ref.child(key).update(obj);
@@ -101,12 +98,37 @@ export class HomePage {
 
      this.longitude = resp.coords.longitude;
      this.latitude = resp.coords.latitude;
+
+     console.log("Finished getting geolocation");
+     this.loadFires(this.latitude, this.longitude)
+
+
      this.calcBest();
      console.log("HO",this.longitude,this.latitude);
      // resp.coords.longitude
     }).catch((error) => {
       console.log('Error getting location', error);
     });
+  }
+
+  //-----------Calculate how far away the fire is
+  loadFires(lat, lng) {
+      this.fires$ = this.afData.list("fires").valueChanges();
+      this.fires$.subscribe(fireArr=> {
+        this.fireArr = fireArr;
+        this.fireArr.forEach(fire=>{
+          let fireLat = fire.lat
+          let fireLng = fire.lng
+          // console.log("fire coords", fireLat, "long", fireLng);
+          fire.distance = this.calculateDistance(lat, lng, fireLat, fireLng).toFixed(2);
+        })
+
+        this.fireArr.sort(function(x,y){
+          return x.distance - y.distance;
+        })
+      })
+
+
   }
   //--------- LAUNCH DIRECTION -----------
   launchDirection(){
@@ -126,11 +148,6 @@ export class HomePage {
 
   //----------- CALCULATE DISTANCE ----------
   calculateDistance(lat1,lon1,lat2,lon2){
-      lat1 = 39.9644620;
-      lon1 = -75.2078070;
-      lat2 = 39.866441;
-      lon2 = -75.077773;
-
 
       let R = 6371; // Radius of the earth in km
       let dLat = this.deg2rad(lat2-lat1);  // deg2rad below
@@ -154,6 +171,8 @@ export class HomePage {
   openFireDetail(fire){
     this.navCtrl.push('FireDetailPage', {fire: fire})
   }
+
+
   removeFire(fire){
     let alert = this.alertCtrl.create({
       title: "Is the fire put out?",
