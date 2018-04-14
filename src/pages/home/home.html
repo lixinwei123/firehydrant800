@@ -9,7 +9,7 @@
 
 <ion-content padding>
 
-
+    <button ion-button (click)="calculateDistance()">Calculates</button>
 
   <!--FAB BUTTON  -->
   <ion-fab bottom right>
@@ -19,11 +19,26 @@
 
   <!-- Display list of fires -->
   <ion-list>
-    <ion-label>List of fires</ion-label>
-    <ion-item *ngFor="let fire of fires$ | async" (click)="openFireDetail(fire)">
-      {{fire.address}}
-    </ion-item>
+
+    <ion-label style="color: red"><b>Active fires</b></ion-label>
+    <ion-item-sliding *ngFor="let fire of fires$ | async" (click)="openFireDetail(fire)">
+      <ion-item>
+        {{fire.address}}
+
+
+      </ion-item>
+
+      <ion-item-options>
+        <button danger (click)="removeFire(fire)"><ion-icon name="trash"></ion-icon></button>
+
+      </ion-item-options>
+    </ion-item-sliding>
+
 
   </ion-list>
+
+  <p class="p-info">
+    <i>Swipe item for more options.</i>
+  </p>
 
 </ion-content>
