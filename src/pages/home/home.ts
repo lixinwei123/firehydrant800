@@ -73,6 +73,11 @@ export class HomePage {
 
   //----------- CALCULATE DISTANCE ----------
   calculateDistance(lat1,lon1,lat2,lon2){
+      lat1 = 39.9644620;
+      lon1 = -75.2078070;
+      lat2 = 39.866441;
+      lon2 = -75.077773;
+
 
       let R = 6371; // Radius of the earth in km
       let dLat = this.deg2rad(lat2-lat1);  // deg2rad below
