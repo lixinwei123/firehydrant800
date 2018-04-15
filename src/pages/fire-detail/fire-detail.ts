@@ -72,11 +72,15 @@ export class FireDetailPage {
         let lat = hyd.lat
         let lng = hyd.lng
         let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAoVoi8F7YFDzp6tp5azw2oJDbSFaZPKn0`
-        this.http.get(url).subscribe(res=> {
-          let address = res.json().results[0].formatted_address
-          console.log(address)
-          this.hydArray[i].address = address;
-        })
+        const res = await this.http.get(url).toPromise();
+        let address = res.json().results[0].formatted_address;
+        this.hydArray[i].address = address;
+
+        // this.http.get(url).subscribe(res=> {
+        //   let address = res.json().results[0].formatted_address
+        //   console.log(address)
+        //   this.hydArray[i].address = address;
+        // })
       }
   }
 
