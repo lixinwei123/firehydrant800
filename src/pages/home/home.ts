@@ -108,7 +108,7 @@ export class HomePage {
   }
 
 
-  //----------------- GEO LOCATION ----------- 
+  //----------------- GEO LOCATION -----------
    getLocation(){
      this.geolocation.getCurrentPosition().then((resp) => {
 
@@ -136,6 +136,12 @@ export class HomePage {
         this.fireArr.forEach(fire=>{
           let fireLat = fire.lat
           let fireLng = fire.lng
+          fire.count = 0;
+
+          if (fire.hydrants){
+              let count = Object.keys(fire.hydrants).length;
+               fire.count = count;
+          }
           fire.distance = this.calculateDistance(lat, lng, fireLat, fireLng).toFixed(2);
           console.log(fire.distance);
         })
@@ -210,12 +216,12 @@ export class HomePage {
               if (data){
                 let hydrantIDs = Object.keys(data)
               hydrantIDs.forEach(id=> {
-                //Remove these hydrants from in use 
+                //Remove these hydrants from in use
                 console.log("id of hydrants", id)
                 this.afData.database.ref(`inuse/${id}`).remove();
               })
               }
-              
+
             })
             this.afData.database.ref(`fires/${fire.id}`).remove();
 
