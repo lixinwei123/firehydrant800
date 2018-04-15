@@ -10,7 +10,7 @@
 
 <ion-content padding>
 <ion-list>
-	<ion-item text-wrap ion-item *ngFor = "let hyd of hydArray" (click)=launchDirection(hyd)>
+	<ion-item text-wrap ion-item *ngFor = "let hyd of hydArray" (click)="launchDirection(hyd)" class="animated fadeInDownBig">
 		<h2 style="width: 70%">{{hyd.address}}</h2>
 		<p>{{hyd.dist}} miles away from the fire</p>
         <img class="firehydrant" src="https://image.flaticon.com/icons/svg/63/63815.svg" />

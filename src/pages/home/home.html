@@ -25,8 +25,8 @@
 
     <!-- __________ LOAD ALL THE FIRES AND DISPLAY THEIR ADDRESS ___________ -->
     <ion-item-sliding *ngFor="let fire of fireArr" (click)="openFireDetail(fire)">
-      <ion-item text-wrap>
-        <h2 style="width: 70%">{{fire.address}}</h2>
+      <ion-item text-wrap >
+        <h2 style="width: 70%" class="animated fadeInDownBig">{{fire.address}}</h2>
 
         <div id="fire-info">
             <p style="margin-right: 180px !important">{{fire.distance}} miles</p>
