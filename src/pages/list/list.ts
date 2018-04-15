@@ -12,7 +12,10 @@ export class ListPage {
   items: Array<{title: string, note: string, icon: string}>;
 
   @ViewChild('gmap') gmapElement: any;
-  maps: google.maps.Map;
+  fireMap: google.maps.Map;
+  marker: google.maps.Marker;
+  mylatlang = google.maps.LatLng;
+  fireHydrantsArr: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
@@ -20,15 +23,30 @@ export class ListPage {
   }
 
 
-  //------- INIT MAP ------
+  //---------------- INIT MAP -------------
   ngOnInit() {
     var mapProp = {
-      center: new google.maps.LatLng(18.5793, 73.8143),
+      center: new google.maps.LatLng(39.9565273, -75.1907409),
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    this.maps = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+    this.fireMap = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+
+
+    //-------- MARKER FOR THE MAPS ------------
+
+
+    this.marker = new google.maps.Marker({
+         position: new google.maps.LatLng(39.9565273, -75.1907409),
+         map: this.fireMap,
+         title: 'Hydrant'
+     });
+
+
   }
 
+
+
+  //------- MARKER FUNCTION ------
 
 }
