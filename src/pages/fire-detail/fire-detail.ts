@@ -31,7 +31,7 @@ export class FireDetailPage {
   constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, private geolocation: Geolocation, private afData: AngularFireDatabase) {
     this.fire = navParams.get('fire');
     console.log("Fire", this.fire)
-    this.getLocation();
+    // this.getLocation();
     this.calcBest();
   }
 
@@ -55,56 +55,49 @@ export class FireDetailPage {
         }
         if(this.hydData[i].Critical == false && this.hydData[i].OutOfService == false){
         this.hydArray.push(obj);
-      
-      } 
+
+      }
       }
         this.hydArray.sort(function(x,y){
-          return x.dist - y.dist 
+          return x.dist - y.dist
         });
-      console.log("all hyd",this.hydArray);
       this.hydArray = [this.hydArray[0],this.hydArray[1],this.hydArray[2],this.hydArray[3],this.hydArray[4]];
+      console.log("all hyd",this.hydArray);
+
       for (let i in this.hydArray){
         // this.hydArray[i].address = this.reverseGeocode(this.hydArray[i].lat, this.hydArray[i].lng)
         // console.log(this.hydArray[i].address);
         let hyd = this.hydArray[i]
+
         let lat = hyd.lat
         let lng = hyd.lng
         let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAoVoi8F7YFDzp6tp5azw2oJDbSFaZPKn0`
         this.http.get(url).subscribe(res=> {
           let address = res.json().results[0].formatted_address
-          // console.log(address)
+          console.log(address)
           this.hydArray[i].address = address;
         })
-
-
-        console.log(this.hydArray[i].address)
-
       }
-      console.log("best one is here", this.hydArray);
-  }
-
-  reverseGeocode(lat, lng){
-    
-    
   }
 
 
-   getLocation(){
-      this.geolocation.getCurrentPosition().then((resp) => {
 
-     this.longitude = resp.coords.longitude;
-     this.latitude = resp.coords.latitude;
-     this.calcBest();
-     console.log("HO",this.longitude,this.latitude);
-     // resp.coords.longitude
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-  }
+  //  getLocation(){
+  //     this.geolocation.getCurrentPosition().then((resp) => {
+  //
+  //    this.longitude = resp.coords.longitude;
+  //    this.latitude = resp.coords.latitude;
+  //    this.calcBest();
+  //    console.log("HO",this.longitude,this.latitude);
+  //    // resp.coords.longitude
+  //   }).catch((error) => {
+  //     console.log('Error getting location', error);
+  //   });
+  // }
 
 
   calculateDistance(lat1,lon1,lat2,lon2){
-     
+
 
 
       let R = 6371; // Radius of the earth in km
