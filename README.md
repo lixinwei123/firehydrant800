@@ -9,3 +9,10 @@ npm install --save @ionic-native/launch-navigator
 npm i @types/googlemaps 
 ``` 
 
+
+## Running the app
+```
+ionic serve
+ionic cordova run android 
+``` 
+
