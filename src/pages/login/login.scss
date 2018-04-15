@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+
+page-login {
+
+    .background{
+        // background-color: #922B21;
+        background: url('http://phandroid.s3.amazonaws.com/wp-content/uploads/2014/06/forest-patrol.jpg');
+        background-position: 0px bottom;
+        background-size: cover;
+    }
+
+    img{
+        width: 80%;
+        display: block;
+        margin: auto;
+
+    }
+
+
+    h1, h4, p{
+        text-align: center;
+        font-family: 'Nunito', sans-serif !important;
+    }
+
+    // h1{
+    //     color: black;
+    //     font-size: 90px;
+    //     margin-top: 20px !important;
+    // }
+
+    p{
+        color: white; 
+        font-style: italic;
+    }
+
+
+    #A{
+        padding: 10%;
+        padding-top: 65%;
+    }
+
+
+    input{
+        background: none;
+        border: none;
+        color: white;
+        font-family: 'Nunito', sans-serif;
+        border-bottom: 0.1px solid #F2F3F4;
+        height: 40px;
+        width: 100%;
+        font-size: 15px;
+        // margin-bottom: 10px;
+    }
+
+    input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: white !important;
+        font-size: 15px;
+    }
+
+    ion-icon{
+        // color: white;
+        margin-top: -15px;
+        font-size: 70px;
+        margin-left: 45%;
+    }
+
+    button{
+        margin-top: 10px !important;
+    }
+
+
+
+
+}
