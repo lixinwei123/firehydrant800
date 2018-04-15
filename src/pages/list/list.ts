@@ -28,60 +28,28 @@ export class ListPage {
   //---------------- INIT MAP -------------
   ngOnInit() {
 
-    this.markerArr = [];
-
-    this.storage.get('hydArray').then((val) => {
-        this.hydrantsArr = val;
-        for (let i = 0; i < this.hydrantsArr.length; i++){
-            let lng = this.hydrantsArr[i].lng;
-            let lat = this.hydrantsArr[i].lat;
-            console.log(lat, lng);
-
-
-            this.markerArr.push(
-                new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, lng),
-                    map: this.fireMap,
-                    title: 'Hydrant'
-                })
-            );
-        }
-
-        var mapProp = {
-          center: new google.maps.LatLng(39.9565273, -75.1907409),
+    var mapProp = {
+         center: new google.maps.LatLng(39.9565273, -75.1907409),
           zoom: 15,
           mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        this.fireMap = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-
-
-        console.log(this.markerArr);
-
-        this.marker = new google.maps.Marker({
-            position: new google.maps.LatLng(39.9, -75.19),
-            map: this.fireMap,
-            title: 'Hydrant'
-        })
+    };
+    this.fireMap = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
 
 
 
-
+  var marker = new google.maps.Marker(
+   {
+       position: new google.maps.LatLng(39.9565273, -75.1907409),
+       map: this.fireMap,
+   });
+   var marker2 = new google.maps.Marker(
+    {
+        position: new google.maps.LatLng(39.957889, -75.188931),
+        map: this.fireMap,
     });
 
 
-
-
-    //-------- MARKER FOR THE MAPS ------------
-
-
-    // this.marker = new google.maps.Marker({
-    //      position: new google.maps.LatLng(39.9565273, -75.1907409),
-    //      map: this.fireMap,
-    //      title: 'Hydrant'
-    //  });
-
-  }
-
+}
 
 
   //------- MARKER FUNCTION ------
