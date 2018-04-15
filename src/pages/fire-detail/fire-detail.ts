@@ -112,8 +112,9 @@ launchDirection(hyd){
      var obj = {
 
       }
-      obj[hyd.id] = true
+      obj[hyd.id] = true;
       this.afData.database.ref("inuse").update(obj);
+      this.afData.database.ref("fires").child(this.fire.id).child("hydrants").update(obj);
   }
 
  getInuse(){
