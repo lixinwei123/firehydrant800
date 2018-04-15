@@ -29,7 +29,7 @@ export class ListPage {
   ngOnInit() {
 
     var mapProp = {
-         center: new google.maps.LatLng(39.9565273, -75.1907409),
+         center: new google.maps.LatLng(39.9469827, -75.118225),
           zoom: 15,
           mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -39,12 +39,12 @@ export class ListPage {
 
   var marker = new google.maps.Marker(
    {
-       position: new google.maps.LatLng(39.9565273, -75.1907409),
+       position: new google.maps.LatLng(39.9469827, -75.118225),
        map: this.fireMap,
    });
    var marker2 = new google.maps.Marker(
     {
-        position: new google.maps.LatLng(39.957889, -75.188931),
+        position: new google.maps.LatLng(39.95409, -75.186860),
         map: this.fireMap,
     });
 

@@ -100,11 +100,11 @@ export class FireDetailPage {
 launchDirection(hyd){
     console.log('This function is triggered');
       let options: LaunchNavigatorOptions = {
-      start: 'Philadelphia, PA',
+      start:  [39.9565453, -75.1907484],
       // app: this.LaunchNavigator.APP
     };
 
-    this.LaunchNavigator.navigate('Toronto, ON', options)
+    this.LaunchNavigator.navigate([hyd.lat, hyd.lng], options)
       .then(
         success => console.log('Launched navigator'),
         error => console.log('Error launching navigator', error)
