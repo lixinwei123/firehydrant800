@@ -14,6 +14,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import {AngularFireModule} from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { IonicStorageModule } from '@ionic/storage'
 
 
 //Modals
@@ -44,7 +45,8 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
