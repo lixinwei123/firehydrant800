@@ -2,6 +2,7 @@ import { Component, ViewChild} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {} from '@types/googlemaps';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -20,13 +21,13 @@ export class ListPage {
   hydrantsArr: any;
   markerArr: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+  constructor(public navCtrl: NavController, private afData: AngularFireDatabase, public navParams: NavParams, private storage: Storage) {
 
   }
 
 
   //---------------- INIT MAP -------------
-  ngOnInit() {
+  async ngOnInit() {
 
     var mapProp = {
          center: new google.maps.LatLng(39.9469827, -75.118225),
@@ -34,19 +35,20 @@ export class ListPage {
           mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     this.fireMap = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+    let markerData = this.afData.list(`fires`).valueChanges();
+    markerData.subscribe(markerArr=> {
+        markerArr.forEach(markerInfo=> {
+            console.log(markerInfo);
+            let lat = markerInfo['lat']
+            let lng = markerInfo['lng']
+            let marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lng),
+                map: this.fireMap
+            })
 
+        })
+    })
 
-
-  var marker = new google.maps.Marker(
-   {
-       position: new google.maps.LatLng(39.9469827, -75.118225),
-       map: this.fireMap,
-   });
-   var marker2 = new google.maps.Marker(
-    {
-        position: new google.maps.LatLng(39.95409, -75.186860),
-        map: this.fireMap,
-    });
 
 
 }
