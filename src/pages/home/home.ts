@@ -190,7 +190,7 @@ export class HomePage {
   }
 
 
-  removeFire(fire){
+  async removeFire(fire){
     let alert = this.alertCtrl.create({
       title: "Is the fire put out?",
       buttons: [
@@ -205,7 +205,20 @@ export class HomePage {
         {
           text: 'OK',
           handler: ()=> {
+            this.afData.database.ref(`fires/${fire.id}/hydrants`).once("value", snap=> {
+              let data = snap.val()
+              if (data){
+                let hydrantIDs = Object.keys(data)
+              hydrantIDs.forEach(id=> {
+                //Remove these hydrants from in use 
+                console.log("id of hydrants", id)
+                this.afData.database.ref(`inuse/${id}`).remove();
+              })
+              }
+              
+            })
             this.afData.database.ref(`fires/${fire.id}`).remove();
+
 
           }
         }
