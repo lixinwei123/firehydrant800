@@ -108,7 +108,7 @@ export class HomePage {
   }
 
 
-  //----------------- GEO LOCATION ----------- 
+  //----------------- GEO LOCATION -----------
    getLocation(){
      this.geolocation.getCurrentPosition().then((resp) => {
 
@@ -210,12 +210,12 @@ export class HomePage {
               if (data){
                 let hydrantIDs = Object.keys(data)
               hydrantIDs.forEach(id=> {
-                //Remove these hydrants from in use 
+                //Remove these hydrants from in use
                 console.log("id of hydrants", id)
                 this.afData.database.ref(`inuse/${id}`).remove();
               })
               }
-              
+
             })
             this.afData.database.ref(`fires/${fire.id}`).remove();
 
