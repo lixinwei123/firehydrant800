@@ -136,6 +136,12 @@ export class HomePage {
         this.fireArr.forEach(fire=>{
           let fireLat = fire.lat
           let fireLng = fire.lng
+          fire.count = 0;
+
+          if (fire.hydrants){
+              let count = Object.keys(fire.hydrants).length;
+               fire.count = count;
+          }
           fire.distance = this.calculateDistance(lat, lng, fireLat, fireLng).toFixed(2);
           console.log(fire.distance);
         })
