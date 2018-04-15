@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Http } from '@angular/http';
 /**
  * Generated class for the FireDetailPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
+declare var google;
 
 @IonicPage()
 @Component({
@@ -26,7 +28,7 @@ export class FireDetailPage {
     };
      hydArray = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, private afData: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, private geolocation: Geolocation, private afData: AngularFireDatabase) {
     this.fire = navParams.get('fire');
     console.log("Fire", this.fire)
     this.getLocation();
@@ -46,7 +48,7 @@ export class FireDetailPage {
       for(var i in this.hydData){
         var curDist = this.calculateDistance(this.fire.lat,this.fire.lng,this.hydData[i].lat,this.hydData[i].lng);
         var obj = {
-          dist: curDist,
+          dist: curDist.toFixed(2),
           id: parseInt(i),
           lng: this.hydData[i].lng,
           lat: this.hydData[i].lat
@@ -61,7 +63,29 @@ export class FireDetailPage {
         });
       console.log("all hyd",this.hydArray);
       this.hydArray = [this.hydArray[0],this.hydArray[1],this.hydArray[2],this.hydArray[3],this.hydArray[4]];
+      for (let i in this.hydArray){
+        // this.hydArray[i].address = this.reverseGeocode(this.hydArray[i].lat, this.hydArray[i].lng)
+        // console.log(this.hydArray[i].address);
+        let hyd = this.hydArray[i]
+        let lat = hyd.lat
+        let lng = hyd.lng
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAoVoi8F7YFDzp6tp5azw2oJDbSFaZPKn0`
+        this.http.get(url).subscribe(res=> {
+          let address = res.json().results[0].formatted_address
+          // console.log(address)
+          this.hydArray[i].address = address;
+        })
+
+
+        console.log(this.hydArray[i].address)
+
+      }
       console.log("best one is here", this.hydArray);
+  }
+
+  reverseGeocode(lat, lng){
+    
+    
   }
 
 

@@ -9,5 +9,10 @@
 
 
 <ion-content padding>
-
+<ion-list>
+	<ion-item ion-item *ngFor = "let hyd of hydArray">
+		<h2>{{hyd.address}}</h2>
+		<p>{{hyd.dist}} miles away from you</p>
+	</ion-item>
+</ion-list>
 </ion-content>
