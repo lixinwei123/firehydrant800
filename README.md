@@ -1,6 +1,8 @@
 # Fire Hydrant Location
 A mobile app that stores all location of fire hydrants and find the most optimizing route for firefighters. 
 
+Link: https://devpost.com/software/gulu-automating-firefighters-efficiency 
+
 ## Installation
 ```
 npm install -g ionic cordova 
